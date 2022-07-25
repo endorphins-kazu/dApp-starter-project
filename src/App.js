@@ -79,11 +79,6 @@ const App = () => {
         contractABI,
         signer
       );
-      let count = await wavePortalContract.getTotalWaves();
-      console.log("Retrieved total wave count...", count.toNumber());
-      let contractBalance = await provider.getBalance(wavePortalContract.address);
-      console.log("Contract balance:", ethers.utils.formatEther(contractBalance));
-
       wavePortalContract.on("NewWave", onNewWave);
     }
     /*メモリリークを防ぐために、NewWaveのイベントを解除します*/
@@ -150,6 +145,8 @@ const App = () => {
         );
         let count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
+        let contractBalance = await provider.getBalance(wavePortalContract.address);
+        console.log("Contract balance:", ethers.utils.formatEther(contractBalance));
         /* コントラクトに👋（wave）を書き込む */
         const waveTxn = await wavePortalContract.wave(messageValue, {
           gasLimit: 300000,
